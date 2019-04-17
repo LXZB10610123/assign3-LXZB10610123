@@ -8,7 +8,7 @@ final int START_BUTTON_X = 248;
 final int START_BUTTON_Y = 360;
 
 PImage title, gameover, startNormal, startHovered, restartNormal, restartHovered;
-PImage bg, soil8x24,soil0,soil1,soil2,soil3,soil4,soil5,stone1,stone2;
+PImage bg, soil8x24,soil0,soil1,soil2,soil3,soil4,soil5,stone1,stone2,life;
 PImage hoglDle,hogldleDown,hogldleLeft,hogldleRight;
 float hogldleX,hogldleY;
 float hogldleSpeed = 80/16;
@@ -21,6 +21,8 @@ int height = 1920;
 boolean  downPress, rightPress, leftPress;
 
 int n =0;
+int COUNT=0;
+float spacing = 40;
 
 
 
@@ -52,6 +54,7 @@ void setup() {
   soil3 = loadImage("img/soil3.png");
   soil4 = loadImage("img/soil4.png");
   soil5 = loadImage("img/soil5.png");
+  life = loadImage("img/life.png");
   
 }
 
@@ -108,8 +111,12 @@ void draw() {
 		noStroke();
 		rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
 
+    // Life
+    for(int a=0; a<160; a+=70){
+      image(life,a,0,50,51);
+    }
+
 		// Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
-		
 
     for(int i=0; i<width; i+= 80){
       for(int n=0; n<320; n+= 80){
@@ -127,7 +134,13 @@ void draw() {
     for(int i=0; i<width; i+= 80){
       image(stone1,i,160+i,80,80);
     }
-
+    for(int b=0; b<width; b+=80){
+      if(COUNT % 4 == 0){
+        image(stone1,b,800);
+        }else{
+          image(stone1,width+1,0);
+      }
+    }
 		// Player
 
     image(hoglDle,320+hogldleX,80+hogldleY,80,80);
