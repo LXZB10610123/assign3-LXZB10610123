@@ -8,7 +8,21 @@ final int START_BUTTON_X = 248;
 final int START_BUTTON_Y = 360;
 
 PImage title, gameover, startNormal, startHovered, restartNormal, restartHovered;
-PImage bg, soil8x24;
+PImage bg, soil8x24,soil0,soil1,soil2,soil3,soil4,soil5,stone1,stone2;
+PImage hoglDle,hogldleDown,hogldleLeft,hogldleRight;
+float hogldleX,hogldleY;
+float hogldleSpeed = 80/16;
+
+int move = 0;
+int maxMove = 24;
+
+int height = 1920;
+
+boolean  downPress, rightPress, leftPress;
+
+int n =0;
+
+
 
 // For debug function; DO NOT edit or remove this!
 int playerHealth = 0;
@@ -26,6 +40,19 @@ void setup() {
 	restartNormal = loadImage("img/restartNormal.png");
 	restartHovered = loadImage("img/restartHovered.png");
 	soil8x24 = loadImage("img/soil8x24.png");
+  hoglDle = loadImage("img/groundhogIdle.png");
+  hogldleDown = loadImage("img/groundhogDown.png");
+  hogldleLeft = loadImage("img/groundhogLeft.png");
+  hogldleRight = loadImage("img/groundhogRight.png");
+  stone1 = loadImage("img/stone1.png");
+  stone2 = loadImage("img/stone2.png");
+  soil0 = loadImage("img/soil0.png");
+  soil1 = loadImage("img/soil1.png");
+  soil2 = loadImage("img/soil2.png");
+  soil3 = loadImage("img/soil3.png");
+  soil4 = loadImage("img/soil4.png");
+  soil5 = loadImage("img/soil5.png");
+  
 }
 
 void draw() {
@@ -82,9 +109,46 @@ void draw() {
 		rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
 
 		// Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
-		image(soil8x24, 0, 160);
+		
+
+    for(int i=0; i<width; i+= 80){
+      for(int n=0; n<320; n+= 80){
+      image(soil0,i,160+n,80,80);
+      image(soil1,i,480+n,80,80);
+      image(soil2,i,800+n,80,80);
+      image(soil3,i,1120+n,80,80);
+      image(soil4,i,1440+n,80,80);
+      image(soil5,i,1760+n,80,80);
+      }
+    }
+    
+    // Stone
+    
+    for(int i=0; i<width; i+= 80){
+      image(stone1,i,160+i,80,80);
+    }
 
 		// Player
+
+    image(hoglDle,320+hogldleX,80+hogldleY,80,80);
+    
+    if(downPress){
+      move ++;
+      hogldleY += hogldleSpeed;
+      leftPress = false; rightPress = false;
+      
+    if(rightPress){
+      hogldleX += hogldleSpeed;
+      
+      leftPress = false; downPress = false;
+    }
+    
+    if(leftPress){
+      hogldleX -= hogldleSpeed;
+      rightPress = false; downPress = false;
+    }
+    }
+    
 
 		// Health UI
 
@@ -122,6 +186,24 @@ void draw() {
 void keyPressed(){
 	// Add your moving input code here
 
+    switch(keyCode){
+      case DOWN:
+      hogldleSpeed = 80/16;
+      downPress = true;
+      if(move == 0){
+        maxMove = 23;
+      }
+      break;
+      case RIGHT:
+      hogldleSpeed = 80/16;
+      rightPress = true;
+      break;
+      case LEFT:
+      hogldleSpeed = 80/16;
+      leftPress = true;
+      break;
+    }
+
 	// DO NOT REMOVE OR EDIT THE FOLLOWING SWITCH/CASES
     switch(key){
       case 'w':
@@ -145,4 +227,15 @@ void keyPressed(){
 }
 
 void keyReleased(){
+  switch(keyCode){
+  case DOWN:
+  downPress = false;
+  break;
+  case RIGHT:
+  rightPress = false;
+  break;
+  case LEFT:
+  leftPress = false;
+  break;
+  }
 }
