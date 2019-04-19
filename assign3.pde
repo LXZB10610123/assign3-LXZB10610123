@@ -20,9 +20,8 @@ int height = 1920;
 
 boolean  downPress, rightPress, leftPress;
 
-int n =0;
-int COUNT=0;
-float spacing = 40;
+int n=0,b=0;
+
 
 
 
@@ -134,12 +133,35 @@ void draw() {
     for(int i=0; i<width; i+= 80){
       image(stone1,i,160+i,80,80);
     }
-    for(int b=0; b<width; b+=80){
-      if(COUNT % 4 == 0){
-        image(stone1,b,800);
-        }else{
-          image(stone1,width+1,0);
+    for(int b=0; b<width; b+=320){
+      for(int i=0; i<320; i += 240){      
+        image(stone1,b+80,800+i);
+        image(stone1,b+160,800+i);
+        image(stone1,b+80,1120+i);
+        image(stone1,b+160,1120+i);
       }
+    for(int i=0; i<320; i+=240){
+      for(int j=0; j<560; j+=320){
+        image(stone1,i,880+j);
+        image(stone1,i+320,880+j);
+        image(stone1,i,960+j);
+        image(stone1,i+320,960+j);
+      }
+    for(int a=0; a<width ; a+=80){
+      image(stone1,80-a,1440+a);
+      image(stone1,160-a,1440+a);image(stone2,160-a,1440+a);
+      image(stone1,320-a,1440+a);
+      image(stone1,400-a,1440+a);image(stone2,400-a,1440+a);
+      image(stone1,560-a,1440+a);
+      image(stone1,560-a,1520+a);image(stone2,560-a,1520+a);
+      image(stone1,560-a,1680+a);
+      image(stone1,560-a,1760+a);image(stone2,560-a,1760+a);
+      image(stone1,560-a,1920+a);
+      image(stone1,560-a,2000+a);image(stone2,560-a,2000+a);
+    }
+    }
+      
+      
     }
 		// Player
 
