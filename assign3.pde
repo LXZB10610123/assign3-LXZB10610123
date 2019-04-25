@@ -10,15 +10,15 @@ final int START_BUTTON_Y = 360;
 PImage title, gameover, startNormal, startHovered, restartNormal, restartHovered;
 PImage bg, soil8x24,soil0,soil1,soil2,soil3,soil4,soil5,stone1,stone2,life;
 PImage hoglDle,hogldleDown,hogldleLeft,hogldleRight;
-float hogldleX,hogldleY;
-float hogldleSpeed = 80/16;
 
-int move = 0;
-int maxMove = 24;
+int hogldleX = 310,hogldleY = 80;
+int hogldleW = hogldleX+80,hogldleH = hogldleY+80;
+int hogldleSpeed = 5;
 
 int height = 1920;
 
 boolean  downPress, rightPress, leftPress;
+boolean  hogDle;
 
 int n=0,b=0;
 
@@ -111,8 +111,8 @@ void draw() {
 		rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
 
     // Life
-    for(int a=0; a<160; a+=70){
-      image(life,a,0,50,51);
+    for(int a=0; a<2; a++){
+      image(life,10+a*70,10,50,51);
     }
 
 		// Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
@@ -165,22 +165,29 @@ void draw() {
     }
 		// Player
 
-    image(hoglDle,320+hogldleX,80+hogldleY,80,80);
+    if(hogDle){
+    image(hoglDle,hogldleX,hogldleY,80,80);
+    }
     
     if(downPress){
-      move ++;
+      
       hogldleY += hogldleSpeed;
-      leftPress = false; rightPress = false;
+      leftPress = false; rightPress = false; hogDle = false;
+      image(hogldleDown,hogldleX,hogldleY);
+      
+    }else{
+      hogDle = true;
       
     if(rightPress){
       hogldleX += hogldleSpeed;
-      
-      leftPress = false; downPress = false;
+      leftPress = false; downPress = false; hogDle = false;
+      image(hogldleRight,hogldleX,hogldleY);
     }
     
     if(leftPress){
       hogldleX -= hogldleSpeed;
-      rightPress = false; downPress = false;
+      rightPress = false; downPress = false; hogDle = false;
+      image(hogldleLeft,hogldleX,hogldleY);
     }
     }
     
@@ -225,9 +232,7 @@ void keyPressed(){
       case DOWN:
       hogldleSpeed = 80/16;
       downPress = true;
-      if(move == 0){
-        maxMove = 23;
-      }
+      
       break;
       case RIGHT:
       hogldleSpeed = 80/16;
