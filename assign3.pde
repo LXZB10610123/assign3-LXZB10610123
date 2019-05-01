@@ -253,7 +253,7 @@ void draw() {
 				gameState = GAME_RUN;
 				mousePressed = false;
 				// Remember to initialize the game here!
-        image(hoglDle,310,80,80,80);
+        hogDle = true;
         playerHealth = 2;
 			}
 		}else{
