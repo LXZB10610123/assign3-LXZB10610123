@@ -15,9 +15,9 @@ int hogldleX = 310,hogldleY = 80;
 int hogldleW = hogldleX+80,hogldleH = hogldleY+80;
 int hogldleSpeed = 5;
 
-int height = 1920;
+int soilH = 0;
 
-boolean  downPress, rightPress, leftPress;
+boolean  downPressed, rightPressed, leftPressed;
 boolean  hogDle;
 
 int n=0,b=0;
@@ -55,6 +55,7 @@ void setup() {
   soil5 = loadImage("img/soil5.png");
   life = loadImage("img/life.png");
   
+  playerHealth = 2;
 }
 
 void draw() {
@@ -97,7 +98,7 @@ void draw() {
 		case GAME_RUN: // In-Game
 
 		// Background
-		image(bg, 0, 0);
+		  image(bg, 0, 0);
 
 		// Sun
 	    stroke(255,255,0);
@@ -106,15 +107,13 @@ void draw() {
 	    ellipse(590,50,120,120);
 
 		// Grass
-		fill(124, 204, 25);
-		noStroke();
-		rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
+		  fill(124, 204, 25);
+		  noStroke();
+		  rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
 
-    // Life
-    for(int a=0; a<2; a++){
-      image(life,10+a*70,10,50,51);
-    }
-
+    pushMatrix();
+    translate(0, soilH);
+    
 		// Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
 
     for(int i=0; i<width; i+= 80){
@@ -160,8 +159,8 @@ void draw() {
       image(stone1,560-a,2000+a);image(stone2,560-a,2000+a);
     }
     }
-      
-      
+
+    
     }
 		// Player
 
@@ -169,30 +168,75 @@ void draw() {
     image(hoglDle,hogldleX,hogldleY,80,80);
     }
     
-    if(downPress){
+    if(downPressed){
       
       hogldleY += hogldleSpeed;
-      leftPress = false; rightPress = false; hogDle = false;
+      leftPressed = false; rightPressed = false; hogDle = false;
       image(hogldleDown,hogldleX,hogldleY);
+      if(hogldleY %80 ==0){
+          downPressed = false; hogDle = true;
+      if(hogldleY + hogldleH > 1920){
+        hogldleY = 1920 - hogldleH;
+      }
       
+      }     
     }else{
       hogDle = true;
       
-    if(rightPress){
+    if(rightPressed){
       hogldleX += hogldleSpeed;
-      leftPress = false; downPress = false; hogDle = false;
+      leftPressed = false; downPressed = false; hogDle = false;
       image(hogldleRight,hogldleX,hogldleY);
+      if(hogldleX %80 ==0){
+          rightPressed = false; hogDle = true;
+      }
+      if(hogldleX+80>width){
+         hogldleX = width-80; rightPressed = false; hogDle = true;
+        }
     }
     
-    if(leftPress){
+    if(leftPressed){
       hogldleX -= hogldleSpeed;
-      rightPress = false; downPress = false; hogDle = false;
+      rightPressed = false; downPressed = false; hogDle = false;
       image(hogldleLeft,hogldleX,hogldleY);
+      if(hogldleX %80 ==0){
+          leftPressed = false; hogDle = true;
+      }
+      if(hogldleX< 0){
+         hogldleX = 0; leftPressed = false; hogDle = true;
+      }
     }
     }
     
 
 		// Health UI
+
+       if(playerHealth == 0){
+         gameState = GAME_OVER;
+       }
+       if(playerHealth == 1){
+         image(life,10,10);
+       }
+       if(playerHealth == 2){
+         for(int a=0; a<2; a++){
+         image(life,10+a*70,10);
+         }
+       }
+         if(playerHealth == 3){
+         for(int a=0; a<3; a++){
+         image(life,10+a*70,10);
+         }
+         }
+         if(playerHealth == 4){
+         for(int a=0; a<4; a++){
+         image(life,10+a*70,10);
+         }
+         }
+         if(playerHealth == 5){
+         for(int a=0; a<5; a++){
+         image(life,10+a*70,10);
+         }
+         }
 
 		break;
 
@@ -231,16 +275,15 @@ void keyPressed(){
     switch(keyCode){
       case DOWN:
       hogldleSpeed = 80/16;
-      downPress = true;
-      
+      downPressed = true;           
       break;
       case RIGHT:
       hogldleSpeed = 80/16;
-      rightPress = true;
+      rightPressed = true;
       break;
       case LEFT:
       hogldleSpeed = 80/16;
-      leftPress = true;
+      leftPressed = true;
       break;
     }
 
@@ -264,18 +307,4 @@ void keyPressed(){
       if(playerHealth < 5) playerHealth ++;
       break;
     }
-}
-
-void keyReleased(){
-  switch(keyCode){
-  case DOWN:
-  downPress = false;
-  break;
-  case RIGHT:
-  rightPress = false;
-  break;
-  case LEFT:
-  leftPress = false;
-  break;
-  }
 }
