@@ -179,7 +179,7 @@ void draw() {
           downPressed = false; hogDle = true;
       if(hogldleY + hogldleH > 1920){
         hogldleY = 1920-hogldleH+80;
-        downPressed = false;
+        downPressed = false; hogDle = true;
       }
       
       }     
