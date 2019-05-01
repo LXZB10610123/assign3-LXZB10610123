@@ -15,7 +15,7 @@ int hogldleX = 310,hogldleY = 80;
 int hogldleW = hogldleX+80,hogldleH = hogldleY+80;
 int hogldleSpeed = 5;
 
-int soilH = 0;
+int soilH = 80;
 
 boolean  downPressed, rightPressed, leftPressed;
 boolean  hogDle;
@@ -106,13 +106,15 @@ void draw() {
 	    fill(253,184,19);
 	    ellipse(590,50,120,120);
 
+    pushMatrix();
+    translate(0, max(soilH * -18, soilH * 1 - hogldleY));
+    
 		// Grass
 		  fill(124, 204, 25);
 		  noStroke();
 		  rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
 
-    pushMatrix();
-    translate(0, soilH);
+    
     
 		// Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
 
@@ -176,7 +178,8 @@ void draw() {
       if(hogldleY %80 ==0){
           downPressed = false; hogDle = true;
       if(hogldleY + hogldleH > 1920){
-        hogldleY = 1920 - hogldleH;
+        hogldleY = 1920-hogldleH+80;
+        downPressed = false;
       }
       
       }     
@@ -207,7 +210,7 @@ void draw() {
       }
     }
     }
-    
+        popMatrix();
 
 		// Health UI
 
